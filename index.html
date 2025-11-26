@@ -2928,10 +2928,13 @@
                         // Signed up successfully
                         const user = userCredential.user;
                         
+                        // Generate unique invitation code for the new user
+                        const invitationCode = generateUniqueInvitationCode();
+                        
                         // Initialize user data with invitation code
                         const initialUserData = {
                             ...userData,
-                            invitationCode: generateInvitationCode()
+                            invitationCode: invitationCode
                         };
                         
                         // Save initial user data to Firestore
@@ -2944,7 +2947,7 @@
                             recordReferral(user.uid, referralCode);
                         }
                         
-                        showMessage('Account created successfully!', 'success');
+                        showMessage('Account created successfully! Your unique invitation link is ready!', 'success');
                         
                         // Clear form
                         signupForm.reset();
@@ -3065,6 +3068,16 @@
                         }
                 }
             }
+
+            // Generate unique invitation code
+            function generateUniqueInvitationCode() {
+                // Generate a unique referral code that doesn't change
+                const digits = Math.floor(100 + Math.random() * 900);
+                const letters = Array.from({length: 3}, () => 
+                    String.fromCharCode(65 + Math.floor(Math.random() * 26))
+                ).join('');
+                return `LION${digits}${letters}`;
+            }
         }
 
         // Dashboard functionality
@@ -3153,6 +3166,10 @@
                 
                 // Update nav
                 navItems.forEach(nav => nav.classList.remove('active'));
+                
+                // Update invitation code and link
+                document.getElementById('invitation-code').textContent = userData.invitationCode;
+                document.getElementById('invitation-link').textContent = `hungry-lion.vercel.app/?ref=${userData.invitationCode}`;
             });
             
             document.getElementById('team-btn').addEventListener('click', function() {
@@ -3577,9 +3594,6 @@
             });
             
             // Invite section functionality
-            document.getElementById('invitation-code').textContent = userData.invitationCode;
-            document.getElementById('invitation-link').textContent = `hungry-lion.vercel.app/?ref=${userData.invitationCode}`;
-            
             document.getElementById('share-whatsapp').addEventListener('click', function() {
                 const message = `Join me at Hungry Lion King! Use my invitation code: ${userData.invitationCode} or click: hungry-lion.vercel.app/?ref=${userData.invitationCode}`;
                 const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
@@ -3650,7 +3664,7 @@
                         saveToLocalStorage();
                     } else {
                         // Create new user document with invitation code
-                        userData.invitationCode = generateInvitationCode();
+                        userData.invitationCode = generateUniqueInvitationCode();
                         saveUserData();
                     }
                 }).catch((error) => {
@@ -3976,6 +3990,10 @@
             document.getElementById('unactivated-members').textContent = userData.team.unactivatedMembers;
             document.getElementById('total-commission').textContent = `R${userData.team.totalCommission}`;
             
+            // Update invitation code and link
+            document.getElementById('invitation-code').textContent = userData.invitationCode;
+            document.getElementById('invitation-link').textContent = `hungry-lion.vercel.app/?ref=${userData.invitationCode}`;
+            
             // Add glow effect to deposit button if balance is low
             const depositBtn = document.getElementById('deposit-btn');
             if (userData.rechargeBalance < 70) {
@@ -4197,7 +4215,8 @@
             saveUserData();
         }
         
-        function generateInvitationCode() {
+        // Generate unique invitation code
+        function generateUniqueInvitationCode() {
             // Generate a unique referral code that doesn't change
             const digits = Math.floor(100 + Math.random() * 900);
             const letters = Array.from({length: 3}, () => 
