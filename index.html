@@ -1012,6 +1012,8 @@
             z-index: 1000;
             align-items: center;
             justify-content: center;
+            overflow-y: auto;
+            padding: 20px;
         }
         
         .modal-content {
@@ -1022,6 +1024,8 @@
             max-width: 400px;
             box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
             position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
         }
         
         .modal-header {
@@ -1029,6 +1033,11 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
+            position: sticky;
+            top: 0;
+            background: var(--white);
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
         }
         
         .modal-title {
@@ -1549,6 +1558,12 @@
         .payment-actions {
             display: flex;
             gap: 10px;
+            position: sticky;
+            bottom: 0;
+            background: var(--white);
+            padding-top: 15px;
+            margin-top: 20px;
+            border-top: 1px solid #eee;
         }
         
         .payment-actions .btn {
@@ -1793,6 +1808,25 @@
             
             .payment-actions {
                 flex-direction: column;
+            }
+            
+            /* Mobile-specific modal improvements */
+            .modal {
+                padding: 10px;
+            }
+            
+            .modal-content {
+                padding: 20px;
+                max-height: 85vh;
+            }
+            
+            .payment-details {
+                padding: 12px;
+                font-size: 13px;
+            }
+            
+            .payment-step-text {
+                font-size: 13px;
             }
         }
     </style>
@@ -2498,7 +2532,7 @@
             </div>
         </div>
 
-        <!-- Enhanced Modal for Deposit -->
+        <!-- Enhanced Mobile-Friendly Modal for Deposit -->
         <div id="deposit-modal" class="modal">
             <div class="modal-content">
                 <div class="modal-header">
@@ -2564,7 +2598,7 @@
             </div>
         </div>
 
-        <!-- Enhanced Modal for Withdrawal -->
+        <!-- Enhanced Mobile-Friendly Modal for Withdrawal -->
         <div id="withdraw-modal" class="modal">
             <div class="modal-content">
                 <div class="modal-header">
